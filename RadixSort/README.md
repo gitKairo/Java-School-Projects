@@ -5,9 +5,9 @@ The countingSort() method is used as a helper method for radix sort to perform c
 
 ## Example Output
 
-This image will display as your example output. Name the image README.JPG in your project folder.
+This image will display as your example output. Name the image README.JPEG in your project folder.
 
-![Sample Output](README.JPG)
+![Sample Output](README.JPEG)
 
 ## Analysis Steps
 
