@@ -5,6 +5,8 @@
 package subwayordersystem;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -47,8 +49,24 @@ public class SubwayOrderSystem extends Application {
         CheckBox bellPeppersCheckBox = new CheckBox("Bell Peppers");
         CheckBox cucumberCheckBox = new CheckBox("Cucumber");
 
+        ObservableSet<CheckBox> selectedVeggies = FXCollections.observableSet();
+        for (CheckBox checkBox : new CheckBox[]{lettuceCheckBox, tomatoCheckBox, onionCheckBox, bellPeppersCheckBox, cucumberCheckBox}) {
+            checkBox.setOnAction(event -> {
+                if (checkBox.isSelected()) {
+                    if (selectedVeggies.size() >= 3) {
+                        checkBox.setSelected(false);
+                    } else {
+                        selectedVeggies.add(checkBox);
+                    }
+                } else {
+                    selectedVeggies.remove(checkBox);
+                }
+            });
+        }
+
         ListView<String> sauceListView = new ListView<>();
         sauceListView.getItems().addAll("Mayonnaise", "Mustard", "BBQ", "Ranch");
+        sauceListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         RadioButton yesRadioButton = new RadioButton("Yes");
         RadioButton noRadioButton = new RadioButton("No");
@@ -70,18 +88,19 @@ public class SubwayOrderSystem extends Application {
 
         // Event handling for the order button
         orderButton.setOnAction(e -> {
-            String orderSummary = "Order Summary:\n\n"
-                    + "Size of Sandwich: " + sandwichSizeBox.getValue() + "\n"
-                    + "Type of Bread: " + breadTypeBox.getValue() + "\n"
-                    + "Type of Meat: " + meatTypeBox.getValue() + "\n"
-                    + "Type of Cheese: " + cheeseTypeBox.getValue() + "\n"
-                    + "Veggies: " + (lettuceCheckBox.isSelected() ? "Lettuce " : "")
-                    + (tomatoCheckBox.isSelected() ? "Tomato " : "")
-                    + (onionCheckBox.isSelected() ? "Onion " : "")
-                    + (bellPeppersCheckBox.isSelected() ? "Bell Peppers " : "")
-                    + (cucumberCheckBox.isSelected() ? "Cucumber" : "") + "\n"
-                    + "Sauce(s): " + sauceListView.getSelectionModel().getSelectedItems().toString() + "\n"
-                    + "Salt & Pepper: " + (yesRadioButton.isSelected() ? "Yes" : "No");
+            String orderSummary = "Order Summary:\n\n" +
+                                "Size of Sandwich: " + sandwichSizeBox.getValue() + "\n" +
+                    "Type of Bread: " + breadTypeBox.getValue() + "\n" +
+                    "Type of Meat: " + meatTypeBox.getValue() + "\n" +
+                    "Type of Cheese: " + cheeseTypeBox.getValue() + "\n" +
+                    "Veggies: " +
+                    (lettuceCheckBox.isSelected() ? "Lettuce " : "") +
+                    (tomatoCheckBox.isSelected() ? "Tomato " : "") +
+                    (onionCheckBox.isSelected() ? "Onion " : "") +
+                    (bellPeppersCheckBox.isSelected() ? "Bell Peppers " : "") +
+                    (cucumberCheckBox.isSelected() ? "Cucumber" : "") + "\n" +
+                    "Sauce(s): " + sauceListView.getSelectionModel().getSelectedItems().toString() + "\n" +
+                    "Salt & Pepper: " + (yesRadioButton.isSelected() ? "Yes" : "No");
 
             Alert orderSummaryAlert = new Alert(Alert.AlertType.INFORMATION);
             orderSummaryAlert.setTitle("Order Summary");
@@ -103,3 +122,4 @@ public class SubwayOrderSystem extends Application {
         launch(args);
     }
 }
+
