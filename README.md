@@ -1,1 +1,1 @@
-# CIS171-KaiRuge
+# Java School Projects (Ozarks Technical Community College)
